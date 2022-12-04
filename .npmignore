@@ -1,0 +1,5 @@
+# typescript related code
+src/
+
+# macOS
+.DS_Store

@@ -1,0 +1,43 @@
+{
+  "name": "tsdsa-queue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "prepublishOnly": "tsc -d",
+    "dev": "tsc --watch",
+    "check": "tsc --no-emit",
+    "build": "tsc",
+    "build:update": "tsc --build",
+    "test": "jest",
+    "lint": "eslint . --ext .ts",
+    "lint-and-fix": "eslint . --ext .ts --fix",
+    "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "format:watch": "onchange 'src/**/*.ts' --prettier --write {{changed}}"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format && npm run lint"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.2.3",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "benchmark": "^2.1.4",
+    "eslint": "^8.29.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.2",
+    "jest": "^29.3.1",
+    "microtime": "^3.1.1",
+    "onchange": "^7.1.0",
+    "prettier": "^2.8.0",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.3"
+  }
+}
