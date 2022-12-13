@@ -14,7 +14,11 @@
     "strictPropertyInitialization": true,	
     "preserveConstEnums": true,				
   },
+  "typedocOptions": {
+    "out": "docs",
+  },
   "include": [
-    "src", "test" 
-  ]
+    "src"
+  ],
+  "exclude": ["node_modules", "tests"]
 }
