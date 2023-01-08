@@ -4,12 +4,12 @@ import IQueue from "./Queue";
  * Circular array queue -- an implementation of the Queue ADT using a circular
  * array along with a dynamic resizing scheme.
  *
- * @class CircularArrayQueue
- * @typedef {CircularArrayQueue}
+ * @class CircArrayQueue
+ * @typedef {CircArrayQueue}
  * @template T The type of all elements in the queue.
  * @implements {IQueue<T>}
  */
-class CircularArrayQueue<T> implements IQueue<T> {
+class CircArrayQueue<T> implements IQueue<T> {
     /**
      * The underlying array for storing queue elements of type `T`.
      * @type {T[]} 
@@ -75,14 +75,14 @@ class CircularArrayQueue<T> implements IQueue<T> {
         if (grow) {
             if (this.#numElems === this.#capacity) {
                 this.#elems.length *=
-                    CircularArrayQueue.#growthFactor;
+                    CircArrayQueue.#growthFactor;
             }
         }
         else {
             if (this.#numElems > 0 && 
                 this.#numElems * 4 === this.#capacity) {
                 this.#elems.length /= 
-                    CircularArrayQueue.#growthFactor;
+                    CircArrayQueue.#growthFactor;
             }
         }
     }
@@ -162,4 +162,4 @@ class CircularArrayQueue<T> implements IQueue<T> {
     }
 }
 
-export default CircularArrayQueue;
+export default CircArrayQueue;
