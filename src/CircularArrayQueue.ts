@@ -11,7 +11,7 @@ import IQueue from "./Queue";
  */
 class CircularArrayQueue<T> implements IQueue<T> {
     /**
-     * The underlying array for storing queue elements.
+     * The underlying array for storing queue elements of type `T`.
      * @type {T[]} 
      */
     #elems: T[];
@@ -31,7 +31,8 @@ class CircularArrayQueue<T> implements IQueue<T> {
     /**
      * Creates an empty queue.
      * @constructor
-     * @param {number} [initCapacity=2] Initial anticipated number of elements
+     * @template T The type of all elements in the queue.
+     * @param {number} initCapacity Initial anticipated number of elements
      *      to be stored in the queue.
      */
     constructor(initCapacity: number = 2) {
@@ -68,7 +69,7 @@ class CircularArrayQueue<T> implements IQueue<T> {
 
     /**
      * Grows or shrinks the underlying array by a factor of 2.
-     * @param {boolean} [grow=true]
+     * @param {boolean} grow Grow/shrink flag.
      */
     #resize(grow: boolean = true): void {
         if (grow) {
@@ -97,7 +98,7 @@ class CircularArrayQueue<T> implements IQueue<T> {
 
     /**
      * Whether the queue has no elements.
-     * @returns {boolean} True if empty.
+     * @returns {boolean} `true` if the queue is empty, `false` otherwise.
      */
     empty(): boolean {
         return this.#numElems === 0;
@@ -106,8 +107,9 @@ class CircularArrayQueue<T> implements IQueue<T> {
     /**
      * Iterates over all elements in the queue from the front to generate 
      * a string representation of the queue.
-     * @param {string} separator - Element separator.
-     * @returns {(string | null)} The elements in front-to-end order.
+     * @param {string} separator Element separator. Defaults to a single space
+     *      character.
+     * @returns {string | null} The elements in front-to-end order.
      */
     iter(separator: string = ' '): string | null {
         if (this.size === 0) {
@@ -115,14 +117,15 @@ class CircularArrayQueue<T> implements IQueue<T> {
         }
         let frontToEnd = '';
         for (let i = this.#startIdx; i < this.#endIdx; i++) {
-            frontToEnd = `${frontToEnd}${frontToEnd.length > 0 ? separator : ''}${this.#elems[i]}`;
+            frontToEnd = frontToEnd +
+                `${frontToEnd.length > 0 ? separator : ''}${this.#elems[i]}`;
         }
         return frontToEnd;
     }
 
     /**
      * Gets the element at the front of the queue if not empty.
-     * @returns {(T | null)} The front element.
+     * @returns {T | null} The front element.
      */
     front(): T | null {
         if (this.empty()) {
@@ -133,7 +136,7 @@ class CircularArrayQueue<T> implements IQueue<T> {
 
     /**
      * Adds an element to the end of the queue.
-     * @param {T} elem - The elemen to be added.
+     * @param {T} elem The element to be added.
      */
     enqueue(elem: T): void {
         this.#resize();
@@ -143,7 +146,7 @@ class CircularArrayQueue<T> implements IQueue<T> {
 
     /**
      * Removes the front element from the queue if not empty.
-     * @returns {boolean} True if success.
+     * @returns {boolean} `true` on success, `false` otherwise.
      */
     deque(): boolean {
         if (this.empty()) {
