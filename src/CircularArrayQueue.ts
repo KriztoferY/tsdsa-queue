@@ -18,7 +18,6 @@ class CircularArrayQueue<T> implements IQueue<T> {
 
     /**
      * Position of the front element in the underlying array.
-     *
      * @type {number}
      */
     #startIdx: number;
@@ -30,7 +29,7 @@ class CircularArrayQueue<T> implements IQueue<T> {
     #numElems: number;
 
     /**
-     * Create an empty queue.
+     * Creates an empty queue.
      * @constructor
      * @param {number} [initCapacity=2] Initial anticipated number of elements
      *      to be stored in the queue.
@@ -68,7 +67,7 @@ class CircularArrayQueue<T> implements IQueue<T> {
     static #growthFactor: number = 2;
 
     /**
-     * Grow or shrink the underlying array by a factor of 2.
+     * Grows or shrinks the underlying array by a factor of 2.
      * @param {boolean} [grow=true]
      */
     #resize(grow: boolean = true): void {
@@ -105,7 +104,7 @@ class CircularArrayQueue<T> implements IQueue<T> {
     }
 
     /**
-     * Iterate over all elements in the queue from the front to generate 
+     * Iterates over all elements in the queue from the front to generate 
      * a string representation of the queue.
      * @param {string} separator - Element separator.
      * @returns {(string | null)} The elements in front-to-end order.
@@ -122,7 +121,7 @@ class CircularArrayQueue<T> implements IQueue<T> {
     }
 
     /**
-     * Get the element at the front of the queue if not empty.
+     * Gets the element at the front of the queue if not empty.
      * @returns {(T | null)} The front element.
      */
     front(): T | null {
@@ -133,7 +132,7 @@ class CircularArrayQueue<T> implements IQueue<T> {
     }
 
     /**
-     * Add an element to the end of the queue.
+     * Adds an element to the end of the queue.
      * @param {T} elem - The elemen to be added.
      */
     enqueue(elem: T): void {
@@ -143,7 +142,7 @@ class CircularArrayQueue<T> implements IQueue<T> {
     }
 
     /**
-     * Remove the front element from the queue if not empty.
+     * Removes the front element from the queue if not empty.
      * @returns {boolean} True if success.
      */
     deque(): boolean {
