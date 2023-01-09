@@ -103,25 +103,43 @@ class SLListQueue<T> implements IQueue<T> {
     }
 
     /**
-     * Iterates over all elements in the queue from the front to generate 
-     * a string representation of the queue.
-     * @param {string} separator Element separator. Defaults to a single 
-     *      space character.
-     * @returns {string | null} The elements in front-to-end order.
+     * Iterates over all elements of this queue from the front.
+     * 
+     * The given operation will be performed on each element iterated.
+     * 
+     * @param action The operation to be performed on each element.
      */
-    iter(separator: string = ' '): string | null {
-        if (this.size === 0) {
-            return null;
-        }
-        let frontToEnd = '';
-        let currNode = this.#head();  // ruled out currNode is null
+    iter(action: (elem: T) => void): void {
+        if (this.size === 0) return;    // ruled out head node is null
+
+        let currNode = this.#head();    
         const n = this.size;
         for (let i = 0; i < n; ++i) {
-            frontToEnd = frontToEnd +
-                `${frontToEnd.length > 0 ? separator : ''}${currNode!.value}`;
+            action(currNode!.value!);   // ruled out null value by enqueue()
             currNode = currNode!.next;
         }
-        return frontToEnd;
+    }
+
+    /**
+     * Creates a string representation of this queue.
+     *
+     * Elements are presented in the queue order from left to right.
+     * 
+     * @param {string} separator Element separator. Defaults to a single space 
+     *      character.
+     * @returns {string} The string representation.
+     */
+    toString(separator: string = ' '): string {
+        let frontToEnd = '';
+        let currNode = this.#head();      // ruled out currNode is null
+        const n = this.size;
+        for (let i = 0; i < n; ++i) {
+            frontToEnd =
+                `${frontToEnd}${frontToEnd.length > 0 ? separator : ''}` +
+                `${currNode!.value!}`;
+            currNode = currNode!.next;
+        }
+        return `[${frontToEnd}]`;
     }
 
     /**
@@ -152,7 +170,7 @@ class SLListQueue<T> implements IQueue<T> {
             newNode.next = newNode;
         }
         // link header node to new tail node
-        this.#header = newNode;
+        this.#header.next = newNode;
         // increment counter
         ++this.#numElems;
     }
