@@ -47,7 +47,7 @@ class CircArrayQueue<T> implements IQueue<T> {
      * @readonly
      * @type {number}
      */
-    get #capacity(): number {
+    get capacity(): number {
         return this.#elems.length;
     }
 
@@ -57,7 +57,7 @@ class CircArrayQueue<T> implements IQueue<T> {
      * @type {number}
      */
     get #endIdx(): number {
-        return (this.#startIdx + this.#numElems) / this.#capacity
+        return (this.#startIdx + this.#numElems) % this.capacity
     }
 
     /**
@@ -73,16 +73,28 @@ class CircArrayQueue<T> implements IQueue<T> {
      */
     #resize(grow: boolean = true): void {
         if (grow) {
-            if (this.#numElems === this.#capacity) {
+            if (this.#numElems === this.capacity) {
                 this.#elems.length *=
                     CircArrayQueue.#growthFactor;
             }
         }
         else {
-            if (this.#numElems > 0 && 
-                this.#numElems * 4 === this.#capacity) {
-                this.#elems.length /= 
-                    CircArrayQueue.#growthFactor;
+            if (this.capacity >= 2 && 
+                this.#numElems * 4 < this.capacity) {
+                // Create new array of half the size as existing one
+                const newElems = new Array(
+                    this.#elems.length / CircArrayQueue.#growthFactor
+                );
+                // Copy all elements into new array
+                const n = this.#numElems;
+                for (let i = 0; i < n; ++i) {
+                    newElems[i] = 
+                        this.#elems[(this.#startIdx + i) % this.capacity];
+                }
+                // Reset start index
+                this.#startIdx = 0;
+                // Replace existing array with new array
+                this.#elems = newElems;
             }
         }
     }
@@ -105,22 +117,38 @@ class CircArrayQueue<T> implements IQueue<T> {
     }
 
     /**
-     * Iterates over all elements in the queue from the front to generate 
-     * a string representation of the queue.
-     * @param {string} separator Element separator. Defaults to a single space
-     *      character.
-     * @returns {string | null} The elements in front-to-end order.
+     * Iterates over all elements of this queue from the front.
+     * 
+     * The given operation will be performed on each element iterated.
+     * 
+     * @param action The operation to be performed on each element.
      */
-    iter(separator: string = ' '): string | null {
-        if (this.size === 0) {
-            return null;
+    iter(action: (elem: T) => void): void {
+        if (this.size === 0) return;
+        const n = this.size;
+        for (let i = 0; i < n; ++i) {
+            action(this.#elems[(this.#startIdx + i) % this.capacity]);
         }
+    }
+
+    /**
+     * Creates a string representation of this queue.
+     *
+     * Elements are presented in the queue order from left to right.
+     * 
+     * @param {string} separator Element separator. Defaults to a single space 
+     *      character.
+     * @returns {string} The string representation.
+     */
+    toString(separator: string = ' '): string {
         let frontToEnd = '';
-        for (let i = this.#startIdx; i < this.#endIdx; i++) {
-            frontToEnd = frontToEnd +
-                `${frontToEnd.length > 0 ? separator : ''}${this.#elems[i]}`;
+        const n = this.size;
+        for (let i = 0; i < n; ++i) {
+            frontToEnd =
+                `${frontToEnd}${frontToEnd.length > 0 ? separator : ''}` +
+                `${this.#elems[(this.#startIdx + i) % this.capacity]}`;
         }
-        return frontToEnd;
+        return `[${frontToEnd}]`;
     }
 
     /**
@@ -140,7 +168,7 @@ class CircArrayQueue<T> implements IQueue<T> {
      */
     enqueue(elem: T): void {
         this.#resize();
-        this.#elems[this.#startIdx] = elem;
+        this.#elems[this.#endIdx] = elem;
         ++this.#numElems;
     }
 
@@ -154,7 +182,7 @@ class CircArrayQueue<T> implements IQueue<T> {
         }
         
         delete this.#elems[this.#startIdx];
-        this.#startIdx = (this.#startIdx + 1) / this.#capacity;
+        this.#startIdx = (this.#startIdx + 1) % this.capacity;
         --this.#numElems;
         this.#resize(false);
 
