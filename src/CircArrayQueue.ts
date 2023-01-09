@@ -148,7 +148,7 @@ class CircArrayQueue<T> implements IQueue<T> {
      * Removes the front element from the queue if not empty.
      * @returns {boolean} `true` on success, `false` otherwise.
      */
-    deque(): boolean {
+    dequeue(): boolean {
         if (this.empty()) {
             return false;
         }

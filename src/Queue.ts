@@ -43,7 +43,7 @@ interface IQueue<T> {
      * Removes the front element from the queue if not empty.
      * @returns {boolean} `true` on success, `false` otherwise.
      */
-    deque(): boolean;
+    dequeue(): boolean;
 }
 
 export default IQueue;
