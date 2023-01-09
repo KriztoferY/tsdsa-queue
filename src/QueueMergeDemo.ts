@@ -4,6 +4,12 @@ import { mergeQueues } from "./algos";
 
 type QueueType = 'array' | 'list';
 
+/**
+ * Shows how to use the non-invasive stable-merge algorithms.
+ * 
+ * @param queueType String representation of the implementation of the Queue 
+ *      ADT to use to run the demo.
+ */
 function runMergeQueueDemo(queueType: QueueType): void {
     const nums1 = [4, 7, 2, 10];
     const q1 = queueType === 'array' 
