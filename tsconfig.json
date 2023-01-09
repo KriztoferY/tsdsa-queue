@@ -16,6 +16,7 @@
   },
   "typedocOptions": {
     "out": "docs",
+    "exclude": "src/*Demo.ts"
   },
   "include": [
     "src"
