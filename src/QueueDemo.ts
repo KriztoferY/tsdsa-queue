@@ -42,7 +42,7 @@ import { isCircArrayQueue } from "./Utils";
  * 
  * @param q A queue to be used to run the demo.
  */
-function runQueueDemo<T>(q: IQueue<T>) {
+function runQueueDemo<T>(q: IQueue<T>): void {
     console.log(`queue (q) created: size = ${q.size}` +
                 (isCircArrayQueue<T>(q) 
                 ? ` | cap = ${(q as CircArrayQueue<T>).capacity}`
