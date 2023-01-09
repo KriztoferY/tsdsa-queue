@@ -82,9 +82,9 @@ class CircArrayQueue<T> implements IQueue<T> {
             if (this.capacity >= 2 && 
                 this.#numElems * 4 < this.capacity) {
                 // Create new array of half the size as existing one
-                const newElems = new Array(
+                const newElems = new Array(Math.floor(
                     this.#elems.length / CircArrayQueue.#growthFactor
-                );
+                ));
                 // Copy all elements into new array
                 const n = this.#numElems;
                 for (let i = 0; i < n; ++i) {
