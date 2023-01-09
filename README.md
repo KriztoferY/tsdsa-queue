@@ -17,20 +17,23 @@ Different implementations of the Queue ADT are defined in separate modules.
 ```typescript
 import CircArrayQueue from "CircArrayQueue";
 
-const q = new CircArrayQueue(4);
+const q = new CircArrayQueue<number>(4);
 
 for (let num of [3, 1, 4, 1, 5]) {
     q.enqueue(num);
 }
 
-console.log(q.iter(''));                // ~> "[3,1,4,1,5]"
+console.log(q.toString(','));           // ~> "[3,1,4,1,5]"
 
 while (!q.empty()) {
-    console.log(`dequeue: front = ${q.front()} | size = ${q.size}`);
+    console.log(
+        `front = ${q.front()} | size = ${q.size}` +
+        `cap = ${q.capacity} -- dequeue()`
+    );
     q.dequeue();
 }
 
-console.log(`${q.iter('')}, queue is empty: ${q.empty()}`);
+console.log(`${q.toString(',')} (queue is empty: ${q.empty()})`);
                                         // ~> "[] (queue is empty: true)"
 ```
 
@@ -39,22 +42,27 @@ included in a dedicated module.
 
 ```typescript
 import CircArrayQueue from "CircArrayQueue"
-import merge from "algos"
+import { mergeQueues } from "Algos"
 
 const nums1 = [4, 7, 2, 10];
-const q1 = CircArrayQueue(nums1.length);
+const q1 = CircArrayQueue<number>(nums1.length);
 for (let num of nums1) {
     q1.enqueue(num);
 }
 
 const nums2 = [3, 6, 8, 9, 5, 1];
-const q2 = CircArrayQueue(nums2.length);
+const q2 = CircArrayQueue<number>(nums2.length);
 for (let num of nums2) {
     q2.enqueue(num);
 }
 
-const merged = merge(q1, q2, (a: number, b: number): boolean => (a > b););
-console.log(`merged : ${merged}`);  // ~> "merged : [4,7,3,6,8,9,5,2,10,1]"
+// The larger the element value, the higher the priority is given to
+// the element when the two queues are stable-merged.
+const merged = mergeQueues(
+    q1, q2, (a: number, b: number): boolean => (a > b)
+);
+console.log(`merged : ${merged!.toString(',')}`);
+                                        // ~> "merged : [4,7,3,6,8,9,5,2,10,1]"
 ```
 <!--intro-end-->
 
