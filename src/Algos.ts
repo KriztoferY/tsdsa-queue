@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import IQueue from './Queue';
 import CircArrayQueue from './CircArrayQueue';
-import { isCircArrayQueue, cloneQueue } from './utils';
+import { isCircArrayQueue, cloneQueue } from './Utils';
 import SLListQueue from './SLListQueue';
 
 

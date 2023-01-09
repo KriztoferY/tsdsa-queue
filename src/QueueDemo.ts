@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import IQueue from "./Queue";
 import CircArrayQueue from "./CircArrayQueue";
 import SLListQueue from "./SLListQueue";
-import { isCircArrayQueue } from "./utils";
+import { isCircArrayQueue } from "./Utils";
 
 /**
  * Shows how to use the Queue ADT with any implementations.

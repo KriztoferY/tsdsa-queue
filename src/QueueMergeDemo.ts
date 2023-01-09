@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import CircArrayQueue from "./CircArrayQueue";
 import SLListQueue from "./SLListQueue";
-import { mergeQueues } from "./algos";
+import { mergeQueues } from "./Algos";
 
 type QueueType = 'array' | 'list';
 
