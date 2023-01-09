@@ -3,7 +3,13 @@ import CircArrayQueue from "./CircArrayQueue";
 import SLListQueue from "./SLListQueue";
 import { isCircArrayQueue } from "./utils";
 
-
+/**
+ * Shows how to use the Queue ADT with any implementations.
+ * 
+ * Guarantees to work with the built-in implementations of the Queue ADT.
+ * 
+ * @param q A queue to be used to run the demo.
+ */
 function run_demo<T>(q: IQueue<T>) {
     console.log(`queue (q) created: size = ${q.size}` +
                 (isCircArrayQueue<T>(q) 
