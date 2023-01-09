@@ -1,5 +1,5 @@
 /**
- * The Queue ADT
+ * The Queue ADT.
  * 
  * @interface IQueue
  * @typedef {IQueue}
@@ -20,12 +20,23 @@ interface IQueue<T> {
     empty(): boolean;
 
     /**
-     * Iterates over all elements in the queue from the front to generate 
-     * a string representation of the queue.
-     * @param {string} separator Element separator.
-     * @returns {string | null} The elements in front-to-end order.
+     * Iterates over all elements of this queue from the front.
+     * 
+     * The given operation will be performed on each element iterated.
+     *
+     * @param action The operation to be performed on each element.
      */
-    iter(separator: string): string | null;
+    iter(action: (elem: T) => void): void;
+
+    /**
+     * Creates a string representation of this queue.
+     *
+     * Elements are presented in the queue order from left to right.
+     * 
+     * @param {string} separator Element separator.
+     * @returns {string} The string representation.
+     */
+    toString(separator: string): string;
 
     /**
      * Gets the element at the front of the queue if not empty.
