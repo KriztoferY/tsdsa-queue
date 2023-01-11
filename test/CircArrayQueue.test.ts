@@ -32,49 +32,241 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import CircArrayQueue from "../src/CircArrayQueue";
 
+
+const properInitCaps = [
+    [1.0], [1], [2], [4], [8], [1024], [1024 * 1024]
+];
+
+const elemsTable = [
+    [[3]], [[3,1]], [[3,1,4,1,5]], [[3,1,4,1,5,9,2,6]]
+];
+
+
 describe.each([
-    { v: 0, typename: 'Number' }, 
-    { v: '', typename: 'String' }, 
-])('CircularArrayQueue<$typename>', (v, typename) => {
-    it.each([
-        [1], [2], [4], [8], [1024], [1024 * 1024]
-    ])('can be constructed with positive integral capacity %p', (init_cap: number) => {
-        const q = new CircArrayQueue<typeof v>(init_cap);
+    { v: 0, typename: 'number' }, 
+    { v: '', typename: 'string' }, 
+])('CircularArrayQueue<$typename>', ({v, typename}) => {
+    const checkFront = <T>(q: CircArrayQueue<T>, nums: Number[]) => {
+        if (q.empty()) {
+            expect(q.front()).toEqual(null);
+        } else {
+            if (typeof v === 'number') { 
+                expect(q.front()).toEqual(nums[0]);
+            } else if (typeof v === 'string'){
+                expect(q.front()).toEqual(`${nums[0]}`);
+            }
+        }
+    };
+
+    it.each(properInitCaps)('can be constructed with positive integral ' +
+                            'capacity %p', (initCap: number) => {
+        const q = new CircArrayQueue<typeof v>(initCap);
         expect(q).toBeDefined();
     });
 
     it.each([
-        [0], [-1], [-2], [-4], [-8], [-1024], [-1024 * 1024]
-    ])('cannot be constructed with non-positive integral capacity %p', (init_cap: number) => {});
+        [0.0], [0], [-1], [-2], [-4], [-8], [-1024], [-1024 * 1024]
+    ])('cannot be constructed with non-positive integral capacity %p', 
+    (initCap: number) => {
+        const createQueue = () => {
+            new CircArrayQueue<typeof v>(initCap);
+        }
+        expect(createQueue).toThrow();
+    });
 
     it.each([
-        [0.0], [1.0], [2.78], [-3.1415], [-42], [0.1], [-0.00001]
-    ])('cannot be constructed with floating-point capacity %p', (init_cap: number) => {});
+        [2.78], [-3.1415], [-42], [0.1], [-0.00001]
+    ])('cannot be constructed with floating-point capacity %p', 
+    (initCap: number) => {
+        const createQueue = () => {
+            new CircArrayQueue<typeof v>(initCap);
+        }
+        expect(createQueue).toThrow();
+    });
 
-    it('should give null when asked for front element and is empty', () => {});
+    it('should give null when asked for front element and is empty', () => {
+        const q = new CircArrayQueue<typeof v>();
+        expect(q.front()).toEqual(null);
+    });
 
-    it('should allow peeking front element when not empty', () => {});
+    it.each(elemsTable)('should allow peeking front element when not empty ' +
+                        '- elems=%p', (nums: number[]) => {
+        const q = new CircArrayQueue<typeof v>(nums.length);
+        let num: typeof v;;
+        for (num of nums) {
+            if (typeof v === 'string') { num = `${num}`; }
+            // before
+            checkFront<typeof v>(q, nums);
+            
+            q.enqueue(num);
 
-    it('can enqueue when empty', () => {});
+            // after
+            checkFront<typeof v>(q, nums);
+        }
+    });
 
-    it('can enqueue when not empty and capacity not exceeded', () => {});
+    it('can enqueue when empty', () => {
+        const initCap = 4;
+        const q = new CircArrayQueue<typeof v>(initCap);
+        // before
+        expect(q.front()).toEqual(null);
+        expect(q.size).toEqual(0);
+        expect(q.capacity).toEqual(initCap);
 
-    it('can enqueue (and grow underlying array) when capacity exhausted', () => {});
+        q.enqueue(v);
+        
+        // after
+        expect(q.front()).toEqual(v);
+        expect(q.size).toEqual(1);
+        expect(q.capacity).toEqual(initCap);
+    });
 
-    it('should allow dequeuing when empty', () => {});
+    it.each(elemsTable)('can enqueue when not empty and capacity not ' +
+                        'exceeded - elems=%p', (nums: number[]) => {
+        const initCap = nums.length + 1;
+        const q = new CircArrayQueue<typeof v>(initCap);
+        let num: typeof v;
+        for (num of nums) {
+            if (typeof v === 'string') { num = `${num}`; }
+            q.enqueue(num);
+        }
+        // before
+        checkFront<typeof v>(q, nums);
+        expect(q.size).toEqual(nums.length);
+        expect(q.capacity).toEqual(initCap);
+        
+        q.enqueue(v);
+        
+        // after
+        checkFront<typeof v>(q, nums);
+        expect(q.size).toEqual(nums.length + 1);
+        expect(q.capacity).toEqual(initCap);
+    });
 
-    it('can dequeue when not empty and resulting size is at least a quarter of capacity', () => {});
+    it.each(elemsTable)('can enqueue (and grow underlying array) when ' +
+                        'capacity exhausted - elems=%p', (nums: number[]) => {
+        const initCap = nums.length;
+        const q = new CircArrayQueue<typeof v>(initCap);
+        let num: typeof v;
+        for (num of nums) {
+            if (typeof v === 'string') { num = `${num}`; }
+            q.enqueue(num);
+        }
+        // before
+        checkFront<typeof v>(q, nums);
+        expect(q.size).toEqual(nums.length);
+        expect(q.capacity).toEqual(initCap);
+        
+        q.enqueue(v);
+        
+        // after
+        checkFront<typeof v>(q, nums);
+        expect(q.size).toEqual(initCap + 1);
+        expect(q.capacity).toEqual(initCap * 2);        
+    });
 
-    it('can dequeue (and shrink underlying array) when resulting size drops below a quarter of capacity but is at least 2', () => {});
+    it('should allow dequeuing when empty', () => {
+        const q = new CircArrayQueue<typeof v>();
+        expect(q.dequeue()).toEqual(false)
+    });
 
-    it('can dequeue (and do not shrink underlying array) when resulting size drops below a quarter of capacity but is less than 2', () => {});
+    it.each(elemsTable)('can dequeue when not empty and resulting size is ' +
+                        'at least a quarter of capacity - elems=%p', 
+    (nums: number[]) => {
+        const initCap = nums.length;
+        const q = new CircArrayQueue<typeof v>(initCap);
+        let num: typeof v;
+        for (num of nums) {
+            if (typeof v === 'string') { num = `${num}`; }
+            q.enqueue(num);
+        }
+        expect(q.dequeue()).toEqual(true);
+        expect(q.size).toEqual(nums.length - 1);
+        expect(q.capacity).toEqual(initCap);
+    });
 
-    it('can generate a string representation when empty', () => {});
+    it.each(elemsTable)('can dequeue (and shrink underlying array) when ' +
+                        'resulting size drops below a quarter of capacity ' + 
+                        'is at least 2 - elems=%p', (nums: number[]) => {
+        const initCap = nums.length * 4;
+        // requires at least 3 elements to start with this test
+        if (initCap < 2) { return; }
 
-    it('can generate a string representation when not empty', () => {});
+        const q = new CircArrayQueue<typeof v>(initCap);
+        let num: typeof v;
+        for (num of nums) {
+            if (typeof v === 'string') { num = `${num}`; }
+            q.enqueue(num);
+        }
+        expect(q.dequeue()).toEqual(true);
+        expect(q.size).toEqual(nums.length - 1);
+        expect(q.capacity).toEqual(Math.floor(initCap / 2));
+    });
 
-    it('should allow iteration when empty', () => {});
+    it.each([
+        [1], [2], [3], [4]
+    ])('can dequeue (and do not shrink underlying array) when resulting ' +
+       'size drops below a quarter of capacity but is less than 2 - initCap=%p', 
+    (initCap: number) => {
+        const q = new CircArrayQueue<typeof v>(initCap);
+        q.enqueue(v);
+        if (initCap > 1) {
+            q.enqueue(v);
+        }
 
-    it('can iterate over all elements to apply external operation to each element', () => {});
+        // before
+        expect(q.size).toEqual(initCap === 1 ? 1 : 2);
+        expect(q.capacity).toEqual(initCap);
 
+        expect(q.dequeue()).toEqual(true);
+
+        // after
+        expect(q.size).toEqual(initCap === 1 ? 0 : 1);
+        expect(q.capacity).toEqual(initCap);
+    });
+
+    it.each(properInitCaps)('can generate a string representation when ' +
+                            'empty - initCap=%p', (initCap: number) => {
+        const q = new CircArrayQueue<typeof v>(initCap);
+        expect(q.toString(',')).toEqual('[]');
+    });
+
+    it.each([
+        { nums: [3], expected: '[3]'}, 
+        { nums: [3,1], expected: '[3,1]'}, 
+        { nums: [3,1,4,1,5], expected: '[3,1,4,1,5]'}, 
+        { nums: [3,1,4,1,5,9,2,6], expected: '[3,1,4,1,5,9,2,6]'}
+    ])('can generate a string representation when not empty - elems=$nums', 
+    ({nums, expected}) => {
+        const initCap = nums.length;
+        const q = new CircArrayQueue<typeof v>(initCap);
+        let num: typeof v;
+        for (num of nums) {
+            q.enqueue(num);
+        }
+
+        expect(q.toString(',')).toEqual(expected);
+    });
+
+    it.each(properInitCaps)('should allow iteration when empty - initCap=%p', 
+    (initCap: number) => {
+        const q = new CircArrayQueue<typeof v>(initCap);
+        expect(q.iter((elem: typeof v) => {})).toEqual(undefined);
+    });
+
+    it.each(elemsTable)('can iterate over all elements to apply external ' +
+                        'operation to each element - elems=%p', 
+    (nums: number[]) => {
+        const initCap = nums.length;
+        const q = new CircArrayQueue<typeof v>(initCap);
+        let num: typeof v;
+        for (num of nums) {
+            q.enqueue(num);
+        } 
+
+        let i = 0;
+        q.iter((elem: typeof v) => {
+            expect(elem).toEqual(nums[i++]);
+        });
+    });
 });
