@@ -48,7 +48,7 @@ describe.each([
 ])('SLListQueue<$typename>', ({v, typename}) => {
     const checkFront = <T>(q: SLListQueue<T>, nums: Number[]) => {
         if (q.empty()) {
-            expect(q.front()).toEqual(null);
+            expect(q.front()).toBeNull();
         } else {
             if (typeof v === 'number') { 
                 expect(q.front()).toEqual(nums[0]);
@@ -58,14 +58,15 @@ describe.each([
         }
     };
 
-    it.each(properInitCaps)('can be constructed with no elements', () => {
+    it.each(properInitCaps)('can be constructed with no elements ' +
+                            'initCap=%p', () => {
         const q = new SLListQueue<typeof v>();
         expect(q).toBeDefined();
     });
 
     it('should give null when asked for front element and is empty', () => {
         const q = new SLListQueue<typeof v>();
-        expect(q.front()).toEqual(null);
+        expect(q.front()).toBeNull();
     });
 
     it.each(elemsTable)('should allow peeking front element when not empty ' +
@@ -84,11 +85,11 @@ describe.each([
         }
     });
 
-    it(`can enqueue when empty - elem=${v}`, () => {
+    it(`can enqueue when empty`, () => {
         const initCap = 4;
         const q = new SLListQueue<typeof v>();
         // before
-        expect(q.front()).toEqual(null);
+        expect(q.front()).toBeNull();
         expect(q.size).toEqual(0);
         // expect(q.capacity).toEqual(initCap);
 
@@ -167,7 +168,7 @@ describe.each([
     it.each(properInitCaps)('should allow iteration when empty - initCap=%p', 
     (initCap: number) => {
         const q = new SLListQueue<typeof v>();
-        expect(q.iter((elem: typeof v) => {})).toEqual(undefined);
+        expect(q.iter((elem: typeof v) => {})).toBeUndefined();
     });
 
     it.each(elemsTable)('can iterate over all elements to apply external ' +
