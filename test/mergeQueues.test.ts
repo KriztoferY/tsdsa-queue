@@ -39,12 +39,12 @@ type QueueType = 'array' | 'list';
 
 
 describe.each([
-    { qType: 'array', qClass: CircArrayQueue, v: 0, typename: 'number' }, 
-    { qType: 'array', qClass: CircArrayQueue, v: '', typename: 'string' }, 
-    { qType: 'list', qClass: SLListQueue, v: 0, typename: 'number' }, 
-    { qType: 'list', qClass: SLListQueue, v: '', typename: 'string' }
+    { qClass: CircArrayQueue, v: 0, typename: 'number' }, 
+    { qClass: CircArrayQueue, v: '', typename: 'string' }, 
+    { qClass: SLListQueue, v: 0, typename: 'number' }, 
+    { qClass: SLListQueue, v: '', typename: 'string' }
 ])('mergeQueues<$typename>() with $qClass.name<$typename>', 
-({qType, qClass, v, typename}) => {
+({qClass, v, typename}) => {
     const dummyCompare = (a: typeof v, b: typeof v) => true;
     const lt = (a: typeof v, b: typeof v) => Number(a) < Number(b);
     const gt = (a: typeof v, b: typeof v) => Number(a) > Number(b);
