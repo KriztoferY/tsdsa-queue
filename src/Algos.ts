@@ -61,8 +61,8 @@ function mergeQueues<T>(
     queue2: Readonly<IQueue<T>>, 
     compare: (elem1: T, elem2: T) => boolean): IQueue<T> | null 
 {
-    if (isCircArrayQueue(queue1) != isCircArrayQueue(queue2)) {
-        throw new Error('two queues are not of the same type');
+    if (isCircArrayQueue(queue1) !== isCircArrayQueue(queue2)) {
+        throw Error('two queues are not of the same type');
     }
 
     // No-op if at least 1 queue is empty
