@@ -68,6 +68,13 @@ class CircArrayQueue<T> implements IQueue<T> {
      *      to be stored in the queue.
      */
     constructor(initCapacity: number = 2) {
+        if (initCapacity <= 0 || 
+            !Number.isInteger(initCapacity) ||
+            !Number.isFinite(initCapacity)) {
+            throw Error("initCapacity cannot be converted into " +
+                        "a finite positive integer");
+        }
+
         this.#elems = new Array(initCapacity);
         this.#startIdx = 0;
         this.#numElems = 0;
