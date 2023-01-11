@@ -10,7 +10,7 @@
     "check": "tsc --no-emit",
     "build": "tsc",
     "build:update": "tsc --build",
-    "test": "jest",
+    "test": "jest --verbose --collectCoverage",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
