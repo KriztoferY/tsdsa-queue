@@ -45,7 +45,7 @@ class Node<T> {
      * Node value.
      * @type {?T}
      */
-    value?: T;
+    value?: T;  // NOTE: only header node is allowed to have undefined value
 
     /**
      * Successor node. `null` if the node has no successor.
@@ -182,8 +182,7 @@ class SLListQueue<T> implements IQueue<T> {
         if (this.empty()) {
             return null;
         }
-        const value = this.#head()!.value;
-        return (value !== undefined) ? value : null;
+        return this.#head()!.value!;  // undefined ruled out by enqueue
     }
 
     /**
