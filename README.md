@@ -75,19 +75,49 @@ For more details, visit the <a href="https://KriztoferY.github.io/tsdsa-queue" t
 Here's what you need to get started.
 
 - [Dependencies](#dependencies)
-- [Installation](#installation)
+- [Running Tests](#running-tests)
+- [Running Demo Programs](#running-demo-programs)
 - [License](#license)
 
 ### Dependencies
 
-None.
+None, except TypeScript, if you just want to use the modules in the `src/` subdirectory within your own projects.
 
-### Installation
+### Running Tests
 
-Just use `npm`.
+Install Jest and its dependencies:
+
+* `"@types/jest": "^29.2.3"`
+
+* `"jest": "^29.3.1"`
+
+* `"ts-jest": "^29.0.3"`
+  
+Alternatively, you may simply install all development dependencies of the project by executing the following command at the project root directory:
 
 ```bash
-$ npm install tsdsa-queue
+$ npm install
+```
+
+Either way, then you run all tests via the command:
+
+```bash
+$ npm test
+```
+
+### Running Demo Programs
+
+Install the TypeScript execution engine `ts-node` globally:
+
+```bash
+$ npm install -g ts-node
+```
+
+Assuming you're now at the project root directory, run
+
+```bash
+$ ts-node src/QueueDemo.ts        # demo on usage of interface of Queue ADT
+$ ts-node src/QueueMergeDemo.ts   # demo on stable-merge algorithm
 ```
 
 ### License
