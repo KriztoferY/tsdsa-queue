@@ -183,7 +183,7 @@ class SLListQueue<T> implements IQueue<T> {
             return null;
         }
         const value = this.#head()!.value;
-        return value ? value : null;
+        return (value !== undefined) ? value : null;
     }
 
     /**
