@@ -36,8 +36,45 @@ describe.each([
     { v: 0, typename: 'Number' }, 
     { v: '', typename: 'String' }, 
 ])('CircularArrayQueue<$typename>', (v, typename) => {
-    test('can be constructed with positive integral capacity', () => {
-        const q = new CircArrayQueue<typeof v>();
+    it.each([
+        [1], [2], [4], [8], [1024], [1024 * 1024]
+    ])('can be constructed with positive integral capacity %p', (init_cap: number) => {
+        const q = new CircArrayQueue<typeof v>(init_cap);
         expect(q).toBeDefined();
     });
+
+    it.each([
+        [0], [-1], [-2], [-4], [-8], [-1024], [-1024 * 1024]
+    ])('cannot be constructed with non-positive integral capacity %p', (init_cap: number) => {});
+
+    it.each([
+        [0.0], [1.0], [2.78], [-3.1415], [-42], [0.1], [-0.00001]
+    ])('cannot be constructed with floating-point capacity %p', (init_cap: number) => {});
+
+    it('should give null when asked for front element and is empty', () => {});
+
+    it('should allow peeking front element when not empty', () => {});
+
+    it('can enqueue when empty', () => {});
+
+    it('can enqueue when not empty and capacity not exceeded', () => {});
+
+    it('can enqueue (and grow underlying array) when capacity exhausted', () => {});
+
+    it('should allow dequeuing when empty', () => {});
+
+    it('can dequeue when not empty and resulting size is at least a quarter of capacity', () => {});
+
+    it('can dequeue (and shrink underlying array) when resulting size drops below a quarter of capacity but is at least 2', () => {});
+
+    it('can dequeue (and do not shrink underlying array) when resulting size drops below a quarter of capacity but is less than 2', () => {});
+
+    it('can generate a string representation when empty', () => {});
+
+    it('can generate a string representation when not empty', () => {});
+
+    it('should allow iteration when empty', () => {});
+
+    it('can iterate over all elements to apply external operation to each element', () => {});
+
 });
