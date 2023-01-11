@@ -58,8 +58,7 @@ describe.each([
         }
     };
 
-    it.each(properInitCaps)('can be constructed with no elements ' +
-                            'initCap=%p', () => {
+    it('can be constructed with no elements', () => {
         const q = new SLListQueue<typeof v>();
         expect(q).toBeDefined();
     });
@@ -86,24 +85,20 @@ describe.each([
     });
 
     it(`can enqueue when empty`, () => {
-        const initCap = 4;
         const q = new SLListQueue<typeof v>();
         // before
         expect(q.front()).toBeNull();
         expect(q.size).toEqual(0);
-        // expect(q.capacity).toEqual(initCap);
 
         q.enqueue(v);
         
         // after
         expect(q.front()).toEqual(v);
         expect(q.size).toEqual(1);
-        // expect(q.capacity).toEqual(initCap);
     });
 
     it.each(elemsTable)('can enqueue when not empty - elems=%p', 
     (nums: number[]) => {
-        const initCap = nums.length + 1;
         const q = new SLListQueue<typeof v>();
         let num: typeof v;
         for (num of nums) {
@@ -113,14 +108,12 @@ describe.each([
         // before
         checkFront<typeof v>(q, nums);
         expect(q.size).toEqual(nums.length);
-        // expect(q.capacity).toEqual(initCap);
         
         q.enqueue(v);
         
         // after
         checkFront<typeof v>(q, nums);
         expect(q.size).toEqual(nums.length + 1);
-        // expect(q.capacity).toEqual(initCap);
     });
 
     it('should allow dequeuing when empty', () => {
@@ -130,7 +123,6 @@ describe.each([
 
     it.each(elemsTable)('can dequeue when not empty - elems=%p', 
     (nums: number[]) => {
-        const initCap = nums.length;
         const q = new SLListQueue<typeof v>();
         let num: typeof v;
         for (num of nums) {
@@ -139,11 +131,9 @@ describe.each([
         }
         expect(q.dequeue()).toEqual(true);
         expect(q.size).toEqual(nums.length - 1);
-        // expect(q.capacity).toEqual(initCap);
     });
 
-    it.each(properInitCaps)('can generate a string representation when ' +
-                            'empty - initCap=%p', (initCap: number) => {
+    it('can generate a string representation when empty', () => {
         const q = new SLListQueue<typeof v>();
         expect(q.toString(',')).toEqual('[]');
     });
@@ -155,7 +145,6 @@ describe.each([
         { nums: [3,1,4,1,5,9,2,6], expected: '[3,1,4,1,5,9,2,6]'}
     ])('can generate a string representation when not empty - elems=$nums', 
     ({nums, expected}) => {
-        const initCap = nums.length;
         const q = new SLListQueue<typeof v>();
         let num: typeof v;
         for (num of nums) {
@@ -165,8 +154,7 @@ describe.each([
         expect(q.toString(',')).toEqual(expected);
     });
 
-    it.each(properInitCaps)('should allow iteration when empty - initCap=%p', 
-    (initCap: number) => {
+    it('should allow iteration when empty', () => {
         const q = new SLListQueue<typeof v>();
         expect(q.iter((elem: typeof v) => {})).toBeUndefined();
     });
@@ -174,7 +162,6 @@ describe.each([
     it.each(elemsTable)('can iterate over all elements to apply external ' +
                         'operation to each element - elems=%p', 
     (nums: number[]) => {
-        const initCap = nums.length;
         const q = new SLListQueue<typeof v>();
         let num: typeof v;
         for (num of nums) {
