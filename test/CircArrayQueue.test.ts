@@ -48,7 +48,7 @@ describe.each([
 ])('CircularArrayQueue<$typename>', ({v, typename}) => {
     const checkFront = <T>(q: CircArrayQueue<T>, nums: Number[]) => {
         if (q.empty()) {
-            expect(q.front()).toBeNull;
+            expect(q.front()).toBeNull();
         } else {
             if (typeof v === 'number') { 
                 expect(q.front()).toEqual(nums[0]);
@@ -86,7 +86,7 @@ describe.each([
 
     it('should give null when asked for front element and is empty', () => {
         const q = new CircArrayQueue<typeof v>();
-        expect(q.front()).toBeNull;
+        expect(q.front()).toBeNull();
     });
 
     it.each(elemsTable)('should allow peeking front element when not empty ' +
@@ -109,7 +109,7 @@ describe.each([
         const initCap = 4;
         const q = new CircArrayQueue<typeof v>(initCap);
         // before
-        expect(q.front()).toBeNull;
+        expect(q.front()).toBeNull();
         expect(q.size).toEqual(0);
         expect(q.capacity).toEqual(initCap);
 
@@ -251,7 +251,7 @@ describe.each([
     it.each(properInitCaps)('should allow iteration when empty - initCap=%p', 
     (initCap: number) => {
         const q = new CircArrayQueue<typeof v>(initCap);
-        expect(q.iter((elem: typeof v) => {})).toBeUndefined;
+        expect(q.iter((elem: typeof v) => {})).toBeUndefined();
     });
 
     it.each(elemsTable)('can iterate over all elements to apply external ' +
