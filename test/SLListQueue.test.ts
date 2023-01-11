@@ -135,7 +135,7 @@ describe.each([
 
     it('can generate a string representation when empty', () => {
         const q = new SLListQueue<typeof v>();
-        expect(q.toString(',')).toEqual('[]');
+        expect(q.toString()).toEqual('[]');  // use default arg to inc coverage
     });
 
     it.each([
