@@ -228,7 +228,7 @@ describe.each([
     it.each(properInitCaps)('can generate a string representation when ' +
                             'empty - initCap=%p', (initCap: number) => {
         const q = new CircArrayQueue<typeof v>(initCap);
-        expect(q.toString(',')).toEqual('[]');
+        expect(q.toString()).toEqual('[]'); // use default arg to inc coverage
     });
 
     it.each([
