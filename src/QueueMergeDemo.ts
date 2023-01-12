@@ -37,7 +37,7 @@ import { mergeQueues } from "./Algos";
 type QueueType = 'array' | 'list';
 
 /**
- * Shows how to use the non-invasive stable-merge algorithms.
+ * Shows how to use the non-modifying stable-merge algorithms.
  * 
  * @param queueType String representation of the implementation of the Queue 
  *      ADT to use to run the demo.
