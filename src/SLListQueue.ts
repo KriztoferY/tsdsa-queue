@@ -208,7 +208,7 @@ class SLListQueue<T> implements IQueue<T> {
 
     /**
      * Removes the front element from the queue if not empty.
-     * @returns {boolean} `true on success, `false` otherwise.
+     * @returns {boolean} `true` on success, `false` otherwise.
      */
     dequeue(): boolean {
         if (this.empty()) {
